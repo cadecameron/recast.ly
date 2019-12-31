@@ -1,26 +1,25 @@
-let allowSearch = true;
+// TODO: Implement debouce
+// Docs: https://lodash.com/docs/4.17.15#debounce
 
 var searchYouTube = (options, callback) => {
-  const {key, query, max} = options;
-  const data = {q: query, key, maxResults: max, part: 'snippet'};
+  const { key, query, max } = options;
+  const data = {
+    q: query, key, maxResults: max, part: 'snippet', type: 'video', videoEmbeddable: 'true'
+  };
 
-  if (allowSearch) {
-    // allowSearch = false;
-    // setTimeout(() => {
-    //   allowSearch = true;
-    //   searchYouTube(options, callback);
-    // }, 5000);
-    $.ajax({
-      url: 'https://www.googleapis.com/youtube/v3/search',
-      type: 'GET',
-      data,
-      contentType: 'application/json',
-      success: callback,
-      error: error => {
-        console.error('chatterbox: Failed to fetch messages', error);
-      }
-    });
-  }
+  $.ajax({
+    url: 'https://www.googleapis.com/youtube/v3/search',
+    type: 'GET',
+    data,
+    contentType: 'application/json',
+    success: results => {
+      const videos = results.items;
+      callback(videos);
+    },
+    error: error => {
+      console.error('Failed to fetch videos', error.responseText);
+    }
+  });
 };
 
 export default searchYouTube;

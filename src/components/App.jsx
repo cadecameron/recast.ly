@@ -19,8 +19,8 @@ class App extends React.Component {
     });
   }
 
-  updateVideos (results) {
-    const videos = results.items;
+  updateVideos (videos) {
+    console.log(videos);
     this.setState({
       videos: videos,
       currentVideo: videos[0]
