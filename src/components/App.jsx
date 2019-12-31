@@ -10,6 +10,7 @@ class App extends React.Component {
     this.state = {
       videos: null,
       currentVideo: null,
+      // state to be used for pagination:
       nextPageToken: '',
       previousPageToken: ''
     };
@@ -19,12 +20,14 @@ class App extends React.Component {
     this.props.searchYouTube({}, this.updateSearch.bind(this));
   }
 
+  // update currentVideo state
   changeCurrentVideo (video) {
     this.setState({
       currentVideo: video
     });
   }
 
+  // update the video list AND current video states
   updateSearch (videos) {
     this.setState({
       currentVideo: videos[0],
@@ -32,6 +35,7 @@ class App extends React.Component {
     this.updateVideos(videos);
   }
 
+  // update video list state
   updateVideos (videos) {
     this.setState({
       videos: videos

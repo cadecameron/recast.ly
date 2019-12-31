@@ -9,7 +9,6 @@ var Search = ({ callback, max = 5 }) => {
       query: e.target.value,
       max: max
     };
-    // options = {key: XX, query: XX, max: XX}
     searchYouTube(options, callback);
   };
 
