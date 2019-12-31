@@ -8,9 +8,15 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      videos: exampleVideoData,
-      currentVideo: exampleVideoData[0]
+      videos: null,
+      currentVideo: null,
+      nextPageToken: '',
+      previousPageToken: ''
     };
+  }
+
+  componentDidMount() {
+    this.props.searchYouTube({}, this.updateSearch.bind(this));
   }
 
   changeCurrentVideo (video) {
@@ -19,11 +25,16 @@ class App extends React.Component {
     });
   }
 
-  updateVideos (videos) {
-    console.log(videos);
+  updateSearch (videos) {
     this.setState({
-      videos: videos,
-      currentVideo: videos[0]
+      currentVideo: videos[0],
+    });
+    this.updateVideos(videos);
+  }
+
+  updateVideos (videos) {
+    this.setState({
+      videos: videos
     });
   }
 
@@ -33,15 +44,15 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search callback={this.updateVideos.bind(this)}/>
+            <Search callback={this.updateSearch.bind(this)}/>
           </div>
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.state.currentVideo} />
+            {this.state.currentVideo ? <VideoPlayer video={this.state.currentVideo} /> : <div className='video-player' />}
           </div>
           <div className="col-md-5">
-            <VideoList videos={this.state.videos} callback={this.changeCurrentVideo.bind(this)} />
+            {this.state.videos ? <VideoList videos={this.state.videos} callback={this.changeCurrentVideo.bind(this)} /> : <div className='video-list' />}
           </div>
         </div>
       </div>
