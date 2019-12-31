@@ -2,7 +2,7 @@
 import App from './components/App.js';
 import searchYouTube from './lib/searchYouTube.js';
 
-ReactDOM.render(<App /* VIDEOS HERE */ />,
+ReactDOM.render(<App />,
   document.getElementById('app')
 );
 

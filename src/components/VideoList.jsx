@@ -1,8 +1,8 @@
 import VideoListEntry from './VideoListEntry.js';
 
-var VideoList = ({videos}) => (
+var VideoList = ({videos, callback}) => (
   <div className="video-list">
-    {videos.map((video, i) => <VideoListEntry key={i} video={video}/> )}
+    {videos.map((video, i) => <VideoListEntry key={i} video={video} callback={callback}/> )}
 
   </div>
 );
