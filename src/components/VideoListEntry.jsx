@@ -1,7 +1,6 @@
 var VideoListEntry = ({ video, callback }) => {
 
   var titleClickHandler = () => {
-    console.log('title clicked!');
     // invoke callback function to update App state
     callback(video);
   };
