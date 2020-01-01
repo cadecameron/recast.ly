@@ -20,14 +20,9 @@ var searchYouTube = _.debounce(
       `https://www.googleapis.com/youtube/v3/search?key=${data.key}&pageToken=${data.pageToken}&maxResults=${data.maxResults}&part=${data.part}&type=${data.type}&videoEmbeddable=${data.videoEmbeddable}`;
 
     fetch(getString)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        callback(data.items);
+        callback(data);
       })
       .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);

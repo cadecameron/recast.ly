@@ -17,18 +17,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.props.searchYouTube({}, this.updateSearch.bind(this));
+    this.props.searchYouTube({}, this.updateResults.bind(this));
   }
 
   // update currentVideo state
-  changeCurrentVideo (video) {
+  changeCurrentVideo(video) {
     this.setState({
       currentVideo: video
     });
   }
 
   // update the video list AND current video states
-  updateSearch (videos) {
+  updateSearch(videos) {
     this.setState({
       currentVideo: videos[0],
     });
@@ -36,9 +36,33 @@ class App extends React.Component {
   }
 
   // update video list state
-  updateVideos (videos) {
+  updateVideos(videos) {
     this.setState({
       videos: videos
+    });
+  }
+
+  // update page tokens, and pass API data to updateSearch
+  updateResults(response) {
+    this.updateSearch(response.items);
+    this.setState({
+      nextPageToken: response.nextPageToken || '',
+      previousPageToken: response.prevPageToken || ''
+    });
+  }
+
+  updatePageTokens(next, prev) {
+    this.setState({
+      nextPageToken: next || '',
+      previousPageToken: prev || ''
+    });
+  }
+
+  changeVideoListPage(next) {
+    var token = next ? this.state.nextPageToken : this.state.prevPageToken;
+    this.props.searchYouTube({ pageToken: token }, results => {
+      this.updateVideos.call(this, results.items);
+      this.updatePageTokens.call(this, results.nextPageToken, results.prevPageToken);
     });
   }
 
@@ -48,7 +72,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search callback={this.updateSearch.bind(this)}/>
+            <Search callback={this.updateSearch.bind(this)} />
           </div>
         </nav>
         <div className="row">
@@ -56,7 +80,7 @@ class App extends React.Component {
             {this.state.currentVideo ? <VideoPlayer video={this.state.currentVideo} /> : <div className='video-player' />}
           </div>
           <div className="col-md-5">
-            {this.state.videos ? <VideoList videos={this.state.videos} callback={this.changeCurrentVideo.bind(this)} /> : <div className='video-list' />}
+            {this.state.videos ? <VideoList videos={this.state.videos} callback={this.changeCurrentVideo.bind(this)} changeVideoListPage={this.changeVideoListPage.bind(this)} /> : <div className='video-list' />}
           </div>
         </div>
       </div>
