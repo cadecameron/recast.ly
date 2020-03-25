@@ -10,10 +10,11 @@ class App extends React.Component {
     this.state = {
       videos: null,
       currentVideo: null,
-      // state to be used for pagination:
       nextPageToken: '',
       previousPageToken: ''
     };
+
+    this.changeCurrentVideo = this.changeCurrentVideo.bind(this);
   }
 
   componentDidMount() {
@@ -27,14 +28,6 @@ class App extends React.Component {
     });
   }
 
-  // update the video list AND current video states
-  updateSearch(videos) {
-    this.setState({
-      currentVideo: videos[0],
-    });
-    this.updateVideos(videos);
-  }
-
   // update video list state
   updateVideos(videos) {
     this.setState({
@@ -42,9 +35,15 @@ class App extends React.Component {
     });
   }
 
+  // update the video list AND current video states
+  updateSearch(videos) {
+    this.changeCurrentVideo(videos.items[0]);
+    this.updateVideos(videos.items);
+  }
+
   // update page tokens, and pass API data to updateSearch
   updateResults(response) {
-    this.updateSearch(response.items);
+    this.updateSearch(response);
     this.setState({
       nextPageToken: response.nextPageToken || '',
       previousPageToken: response.prevPageToken || ''
@@ -67,7 +66,6 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
       <div>
         <nav className="navbar">
@@ -88,6 +86,4 @@ class App extends React.Component {
   }
 }
 
-// In the ES6 spec, files are "modules" and do not share a top-level scope
-// `var` declarations will only exist globally where explicitly defined
 export default App;
