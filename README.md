@@ -6,3 +6,5 @@ This is a project I completed as a student at [hackreactor](http://hackreactor.c
 - Learn how to transpile code with Babel's command line tool
 - Practice using ES6 features
 - Continue practicing interactions with a REST API (in this case, the [YouTube Data API](https://developers.google.com/youtube/v3/?hl=en))
+
+![Screenshot](imgs/screenshot.gif)
